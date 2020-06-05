@@ -64,7 +64,7 @@ matrix:
           sudo install minikube /usr/local/bin/
         - minikube version #minikube version: v1.11.0
         # - minikube config set driver podman #unknown command "config" for "minikube"
-        # - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
+        - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
         - | #Starting a cluster on alternative container runtimes,use the extended version with containerd
           minikube start \
           --network-plugin=cni \
@@ -144,7 +144,7 @@ matrix:
         #     --container-runtime=cri-o \
         #     --bootstrapper=kubeadm
         #use the extended version
-        # - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
+        - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
         - minikube start \
                 --network-plugin=cni \
                 --enable-default-cni \
@@ -208,7 +208,7 @@ matrix:
           chmod +x ./kubectl && \
           sudo mv ./kubectl /usr/local/bin/kubectl &&
           kubectl version --client
-        # - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
+        - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
         - | #Install Minikube via direct download,add the Minikube executable to the path
           curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && \
           chmod +x minikube && \
