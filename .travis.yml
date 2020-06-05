@@ -22,8 +22,6 @@ matrix:
   include:
 
 
-    #https://minikube.sigs.k8s.io/docs/drivers/
-    #https://minikube.sigs.k8s.io/docs/drivers/podman/
     #https://kubernetes.io/docs/setup/learning-environment/minikube/
     #https://kubernetes.io/docs/tasks/tools/install-minikube/
     #https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux
@@ -64,38 +62,9 @@ matrix:
           chmod +x minikube && \
           sudo mkdir -p /usr/local/bin/ && \
           sudo install minikube /usr/local/bin/
-        # # Install podman
-        # - . /etc/os-release
-        # - sudo sh -c "echo 'deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /' | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
-        # - curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
-        # - sudo apt-get update -qq
-        # - sudo apt-get -qqy install podman slirp4netns #https://github.com/rootless-containers/slirp4netns
-        # - podman info #his command displays the information related to the host such as the Kernel version, swap space used
-        # - "podman build ."
-        # - podman images #lists all the images
-        # - sudo podman run  -p 80:80 -dit centos
-        # - podman ps -a
-        # - podman stop eed30719cd37
-        # - podman rm eed30719cd37
-        # - podman rmi 785188cd988c
-        # - podman pod list #The pod create command creates a pod with an infra container by default associated with it unless explicitly set with infra flag as false.
-        # - podman pod create --infra = false #Error: `podman pod create` takes no arguments
-        # - podman pod list
-        # - snap info --verbose minikube
         - minikube version #minikube version: v1.11.0
         # - minikube config set driver podman #unknown command "config" for "minikube"
-        - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
-        # - sudo podman network ls
-        # - podman info | grep rootless
-        #https://github.com/kubernetes/minikube/issues/7480
-        #https://github.com/kubernetes/minikube/issues/8124
-        # - | #Starting a cluster on alternative container runtimes, with containerd
-        #   minikube start \
-        #   --network-plugin=cni \
-        #   --enable-default-cni \
-        #   --container-runtime=containerd \
-        #   --bootstrapper=kubeadm
-        # - minikube start --driver=podman --container-runtime=cri-o #Start a cluster using the podman driver
+        # - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
         - | #Starting a cluster on alternative container runtimes,use the extended version with containerd
           minikube start \
           --network-plugin=cni \
@@ -128,9 +97,6 @@ matrix:
       after_success:
         - deactivate
 
-    #Podman - container (experimental)
-    #https://minikube.sigs.k8s.io/docs/drivers/
-    #https://minikube.sigs.k8s.io/docs/drivers/podman/
     # https://kubernetes.io/docs/setup/learning-environment/minikube/
     #https://kubernetes.io/docs/tasks/tools/install-minikube/
     #https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux
@@ -171,34 +137,14 @@ matrix:
           chmod +x minikube && \
           sudo mkdir -p /usr/local/bin/ && \
           sudo install minikube /usr/local/bin/
-        # # Install podman
-        # - . /etc/os-release
-        # - sudo sh -c "echo 'deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /' | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
-        # - curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key | sudo apt-key add -
-        # - sudo apt-get update -qq
-        # - sudo apt-get -qqy install podman slirp4netns #https://github.com/rootless-containers/slirp4netns
-        # - podman info #his command displays the information related to the host such as the Kernel version, swap space used
-        # - "podman build ."
-        # - podman images #lists all the images
-        # - sudo podman run  -p 80:80 -dit centos
-        # - podman ps -a
-        # - podman stop eed30719cd37
-        # - podman rm eed30719cd37
-        # - podman rmi 785188cd988c
-        # - podman pod list #The pod create command creates a pod with an infra container by default associated with it unless explicitly set with infra flag as false.
-        # - podman pod create --infra = false #Error: `podman pod create` takes no arguments
-        # - podman pod list
-        # - snap info --verbose minikube
         - minikube version #minikube version: v1.11.0
-        # - minikube config set driver podman #unknown command "config" for "minikube"
-        # - sudo podman network ls
         # - sudo minikube start \
         #     --network-plugin=cni \
         #     --enable-default-cni \
         #     --container-runtime=cri-o \
         #     --bootstrapper=kubeadm
         #use the extended version
-        - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
+        # - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
         - minikube start \
                 --network-plugin=cni \
                 --enable-default-cni \
@@ -206,15 +152,6 @@ matrix:
                 --extra-config=kubelet.container-runtime-endpoint=/var/run/crio.sock \
                 --extra-config=kubelet.image-service-endpoint=/var/run/crio.sock \
                 --bootstrapper=kubeadm
-        # - |
-        #   sudo minikube start \
-        #   --network-plugin=cni \
-        #   --enable-default-cni \
-        #   --extra-config=kubelet.container-runtime=remote \
-        #   --extra-config=kubelet.container-runtime-endpoint=/var/run/crio.sock \
-        #   --extra-config=kubelet.image-service-endpoint=/var/run/crio.sock \
-        #   --driver=podman
-        # - minikube start --driver=podman --container-runtime=cri-o #Start a cluster using the podman driver
         - echo "============================Waiting for Kubernetes to be ready========================================"
         - |
           echo "Waiting for Kubernetes to be ready ..."
@@ -271,7 +208,7 @@ matrix:
           chmod +x ./kubectl && \
           sudo mv ./kubectl /usr/local/bin/kubectl &&
           kubectl version --client
-        - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
+        # - docker pull gcr.io/k8s-minikube/kicbase:v0.0.10
         - | #Install Minikube via direct download,add the Minikube executable to the path
           curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && \
           chmod +x minikube && \
@@ -333,13 +270,6 @@ matrix:
         - brew update #Update brew and cask
         - brew cask upgrade
         - brew cask info podman
-        # - podman info #No output has been received in the last 10m0s, this potentially indicates a stalled build or something wrong with the build itself
-        # - "podman build ."
-        # - podman images #lists all the images
-        # - podman run  -p 80:80 -dit centos
-        # - podman ps -a
-        # - minikube config set driver podman #make docker the default driver
-        # - minikube start --driver=podman #Start a cluster using the podman driver
       after_success:
         - brew uninstall kubectl minikube
         - brew cleanup kubectl minikube
