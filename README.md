@@ -27,7 +27,8 @@ If you do not already have a hypervisor installed, install one of these now:
 • Hyper-V
 
 • VirtualBox
-
+~~~~
+~~~~
 Install Minikube on macOS
 Install a Hypervisor
 
