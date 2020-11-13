@@ -24,7 +24,7 @@ matrix:
 
  # =============================================windows=============================================
 
-    - name: "kubectl minikube Python 3.8 on Windows"
+    - name: "deploy kubectl minikube Python 3.8 on Windows"
       os: windows
       language: shell
       env:
