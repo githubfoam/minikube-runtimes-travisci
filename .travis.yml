@@ -9,21 +9,11 @@ notifications:
     on_failure: always
 
 
-fleet_script_tasks : &fleet_script_tasks
-      script:
-        - python --version
-fleet_install_tasks : &fleet_install_tasks
-      install:
-        - pip install -r requirements.txt
-
-
 matrix:
   fast_finish: true
   include:
 
-#   # =============================================macOS=============================================
-
-    - name: "minikube kubectl Python 2.7.17 on macOS 10.15.4 osx xcode11.5"
+    - name: "deploy minikube kubectl w homebrew on macOS 10.15.4 osx xcode11.5"
       os: osx
       osx_image: xcode11.5
       language: shell
@@ -39,8 +29,8 @@ matrix:
         - pip install virtualenv
         - virtualenv -p $(which python2) ~venvpy2
         - source ~venvpy2/bin/activate
-      <<: *fleet_install_tasks
-      <<: *fleet_script_tasks
+        - python --version
+        - pip install -r requirements.txt
       script:
         - kubectl version --client
         - minikube version
@@ -58,4 +48,32 @@ matrix:
         - brew uninstall kubectl minikube
         - brew cleanup kubectl minikube
         - brew cask uninstall --force podman
+        - deactivate
+
+# https://github.com/containers/podman
+# https://podman.io/getting-started/installation
+    - name: "deploy podman Python 2.7.17 on macOS 10.15.4 osx xcode11.5"
+      os: osx
+      osx_image: xcode11.5
+      language: shell
+      addons:
+        homebrew:
+          packages:
+            - podman 
+          update: true
+      before_install:
+        - pip install virtualenv
+        - virtualenv -p $(which python2) ~venvpy2
+        - source ~venvpy2/bin/activate
+        - python --version
+        - pip install -r requirements.txt
+      script:
+        - brew info podman
+        # - brew doctor #Check system for potential problems
+        - brew update #Update brew and cask
+        - brew cask upgrade
+        - brew cask info podman
+      after_success:
+        - brew uninstall podman 
+        - brew podman
         - deactivate
