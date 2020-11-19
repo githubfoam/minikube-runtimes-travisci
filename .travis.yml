@@ -43,7 +43,6 @@ matrix:
         # - brew doctor #Check system for potential problems
         - brew update #Update brew and cask
         - brew cask upgrade
-        - brew cask info podman
       after_success:
         - brew uninstall kubectl minikube
         - brew cleanup kubectl minikube
@@ -72,7 +71,7 @@ matrix:
         # - brew doctor #Check system for potential problems
         - brew update #Update brew and cask
         - brew cask upgrade
-        - brew cask info podman
+        # - brew cask info podman
       after_success:
         - brew uninstall podman 
         - brew podman
