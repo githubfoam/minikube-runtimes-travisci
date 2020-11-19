@@ -13,6 +13,35 @@ matrix:
   fast_finish: true
   include:
 
+    - name: "deploy minikube kubectl podman wo homebrew on macOS 10.15.4 osx xcode11.5"
+      os: osx
+      osx_image: xcode11.5
+      language: shell
+      before_install:
+        - pip install virtualenv
+        - virtualenv -p $(which python2) ~venvpy2
+        - source ~venvpy2/bin/activate
+        - python --version
+        - pip install -r requirements.txt
+      script:
+        - brew cat kubectl
+        - brew cat minikube
+        - brew home kubectl
+        - brew home minikube
+        - brew info kubectl
+        - brew info minikube
+        - brew info podman
+        - kubectl version --client
+        - minikube version        
+        # - brew doctor #Check system for potential problems
+        - brew update #Update brew and cask
+        - brew cask upgrade
+      after_success:
+        - brew uninstall kubectl minikube
+        - brew cleanup kubectl minikube
+        - brew cask uninstall --force podman
+        - deactivate
+
     - name: "deploy minikube kubectl w homebrew on macOS 10.15.4 osx xcode11.5"
       os: osx
       osx_image: xcode11.5
